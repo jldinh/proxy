@@ -8,6 +8,7 @@ const HTTPS_PORT = 443;
 const HTTP_PORT = Number(process.env.PORT || 80);
 const HTTP_IP = process.env.IP || '0.0.0.0';
 const SOCKET_TIMEOUT = Number(process.env.SOCKET_TIMEOUT || 30000); // 30 seconds default socket timeout
+const PROXY_TIMEOUT = Number(process.env.PROXY_TIMEOUT || 10000); // 10 seconds default proxy timeout
 
 const processIds: { [id: string]: httpProxy } = {}
 
@@ -48,7 +49,8 @@ function register(node: Node) {
   const proxy = httpProxy.createProxy({
     agent: http.globalAgent,
     target: { host, port },
-    ws: true
+    ws: true,
+    proxyTimeout: PROXY_TIMEOUT
   });
 
   proxy.on('proxyReqWs', (proxyReq, req, socket, options, head) => {
