@@ -52,12 +52,6 @@ function register(node: Node) {
     ws: true,
     proxyTimeout: PROXY_TIMEOUT
   });
-  
-  proxy.on("proxyReq", (proxyReq, req, res, options) => {
-    setTimeout(() => {
-      proxyReq.destroy(new Error("Timeout"));
-    }, PROXY_TIMEOUT);
-  });
 
   proxy.on('proxyReqWs', (proxyReq, req, socket, options, head) => {
     /**
